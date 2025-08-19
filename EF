@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrenamiento: Finanzas para Xpeers</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+        :root {
+            --nu-purple: #820AD1;
+            --nu-dark: #111111;
+            --nu-light-purple: #F3E6FC;
+            --nu-white: #FFFFFF;
+            --nu-grey: #f5f5f5;
+            --text-primary: #333333;
+        }
+        /* Reseteo y Estilos Base dentro del contenedor */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body, html { 
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Oculta barras de scroll del body */
+        }
+        #presentation-container {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-primary);
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background-color: var(--nu-dark); /* Color de fondo por si algo falla */
+        }
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+            visibility: hidden;
+            background-color: var(--nu-white);
+        }
+        .slide.active {
+            opacity: 1;
+            transform: scale(1);
+            visibility: visible;
+            z-index: 1;
+        }
+        /* El resto de tus estilos (h1, p, botones, etc.) permanecen igual */
+        .slide-cover { background-color: var(--nu-purple); color: var(--nu-white); }
+        .slide-intro { background-color: var(--nu-light-purple); }
+        .slide-module { background-color: var(--nu-purple); color: var(--nu-white); }
+        .slide-content { background-color: var(--nu-white); }
+        .slide-activity { background-color: var(--nu-grey); }
+        .slide-end { background-color: var(--nu-dark); color: var(--nu-white); }
+        h1 { font-size: 3.5rem; margin-bottom: 1rem; }
+        h2 { font-size: 2.8rem; margin-bottom: 1.5rem; }
+        h3 { font-size: 2rem; margin-bottom: 1rem; color: var(--nu-purple); }
+        p { font-size: 1.3rem; line-height: 1.6; max-width: 900px; }
+        .subtitle { font-size: 1.5rem; opacity: 0.9; }
+        .slide-cover h1 { border: 4px solid var(--nu-white); padding: 1rem 2rem; border-radius: 10px; }
+        .fin-man { width: 100px; height: 100px; margin-bottom: 1rem; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)); }
+        .slide-cover .fin-man { width: 150px; height: 150px; }
+        .icon { width: 80px; height: 80px; margin-bottom: 1.5rem; color: var(--nu-purple); }
+        strong { color: var(--nu-purple); font-weight: 600; }
+        .slide-module strong, .slide-cover strong, .slide-end strong { color: var(--nu-light-purple); }
+        .flex-container { display: flex; justify-content: space-around; align-items: stretch; width: 100%; margin-top: 2rem; gap: 2rem; }
+        .flex-item { flex-basis: 30%; background: var(--nu-white); padding: 2rem; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); transition: transform 0.3s ease; display: flex; flex-direction: column; }
+        .flex-item:hover { transform: translateY(-10px); }
+        .flex-item h3 { margin-top: 0; font-size: 1.5rem; }
+        .flex-item p { font-size: 1rem; }
+        .scenario-box { flex-basis: 30%; background: var(--nu-white); padding: 1.5rem; border-radius: 12px; border-left: 5px solid var(--nu-purple); box-shadow: 0 5px 15px rgba(0,0,0,0.08); text-align: left; }
+        .scenario-box h3 { font-size: 1.2rem; }
+        .scenario-box p { font-size: 0.95rem; }
+        .calculation-item { border: 2px solid var(--nu-light-purple); text-align: left; }
+        .calculation-item .calculation-result { margin-top: auto; padding-top: 1rem; font-weight: 600; font-size: 1.1rem; color: var(--nu-purple); }
+        .disclaimer { font-size: 0.8rem; color: #999; margin-top: 2rem; max-width: 800px; }
+        .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 50px; height: 50px; background: rgba(0, 0, 0, 0.3); color: white; border: none; border-radius: 50%; font-size: 24px; cursor: pointer; z-index: 10; display: flex; justify-content: center; align-items: center; transition: background 0.3s ease; }
+        .nav-arrow:hover { background: var(--nu-purple); }
+        #prevBtn { left: 20px; }
+        #nextBtn { right: 20px; }
+        .slide-end .icon { color: var(--nu-light-purple); }
+        .kahoot { font-size: 2rem; padding: 1.5rem 3rem; background: #46178F; color: white; text-decoration: none; border-radius: 50px; font-weight: 700; margin-top: 2rem; display: inline-block; transition: transform 0.2s ease; }
+        .kahoot:hover { transform: scale(1.05); }
+        @media (max-width: 768px) { h1 { font-size: 2.5rem; } h2 { font-size: 2rem; } p { font-size: 1rem; } .slide { padding: 2rem; } .flex-container { flex-direction: column; gap: 1rem; align-items: center; } .flex-item, .scenario-box { width: 90%; flex-basis: auto; } }
+    </style>
+</head>
+<body>
+    <div id="presentation-container">
+        <section class="slide slide-cover active">
+            <svg class="fin-man" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.64 6.36c.39.39.39 1.02 0 1.41L12 13.41l-3.64-3.64c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0L12 11.59l2.22-2.22c.39-.39 1.02-.39 1.42 0z" fill="#FFFFFF"/><path d="M15.64 8.36c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41L12 14.83l-5.05-5.05c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0L12 12.01l3.64-3.65z" fill="#FFFFFF" fill-opacity="0.6"/></svg>
+            <h1>Finanzas para Xpeers</h1>
+            <p class="subtitle">Tu kit de supervivencia para entender el mundo financiero.</p>
+        </section>
+        <section class="slide slide-intro">
+            <h2>Antes de empezar...</h2>
+            <p>Piensa en esto por un momento:</p>
+            <h3>¿Cuál es el <strong>mejor</strong> o <strong>peor</strong> consejo financiero que has recibido?</h3>
+            <p>(No hay respuestas correctas o incorrectas, ¡queremos conocer tu experiencia!)</p>
+        </section>
+        
+        <section class="slide slide-content">
+            <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+            <h2>¿Por qué este entrenamiento?</h2>
+            <p>Imagínalo así: los squads de Nu te enseñarán a construir las habitaciones de una casa (nuestros productos).<br><strong>Nuestra misión hoy es entregarte cimientos sólidos.</strong></p>
+            <p>Con esta base, entenderás el "porqué" de las dudas de los clientes y todo tendrá más sentido.</p>
+        </section>
+        <section class="slide slide-module">
+            <h2>Módulo 1</h2>
+            <h1>El GPS de tu Dinero</h1>
+             <p class="subtitle">No puedes llegar a tu destino si no sabes dónde estás.</p>
+        </section>
+        <section class="slide slide-content">
+            <h3>La regla <strong>50 / 30 / 20</strong>: Tu mapa simplificado</h3>
+            <p>Una forma sencilla de organizar tu dinero y darle a cada peso un propósito.</p>
+            <div class="flex-container">
+                <div class="flex-item">
+                    <h3><strong>50%</strong> Necesidades</h3>
+                    <p>Lo esencial: arriendo, comida, transporte, servicios. El combustible para despegar.</p>
+                </div>
+                <div class="flex-item">
+                    <h3><strong>30%</strong> Deseos</h3>
+                    <p>Lo que te hace feliz: salidas, hobbies, streaming. Las paradas divertidas del viaje.</p>
+                </div>
+                <div class="flex-item">
+                    <h3><strong>20%</strong> Metas y Ahorro</h3>
+                    <p>Tu "yo del futuro": pagar deudas, ahorrar para un viaje, invertir. El combustible extra para llegar más lejos.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide slide-module">
+             <h2>Módulo 2</h2>
+             <h1>Las Herramientas del Superhéroe</h1>
+             <p class="subtitle">Conociendo los instrumentos básicos del mundo financiero.</p>
+        </section>
+        <section class="slide slide-content">
+            <h3>Débito vs. Crédito: ¿Simple o Sofisticado?</h3>
+            <p>Es clave entender la diferencia para poder explicarla.</p>
+            <div class="flex-container">
+                <div class="flex-item">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                    <h3>Tarjeta de Débito</h3>
+                    <p>Es <strong>tu propio dinero.</strong> Gastas lo que tienes en tu cuenta. Es como usar tu propio martillo. Simple y sin deudas.</p>
+                </div>
+                <div class="flex-item">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                    <h3>Tarjeta de Crédito</h3>
+                    <p>Es <strong>dinero prestado</strong> por el banco. Te da flexibilidad, pero debes devolverlo. Es como pedir prestado el taladro de tu vecino. ¡Hay que devolverlo a tiempo!</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide slide-content">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm1.448 13.333l-1.428-1.428.013-4.243h2v3.586l1 1-1.585 1.085z"/></svg>
+            <h3>El Interés: El poder de doble filo</h3>
+            <p>Es el costo de usar dinero prestado. Puede ser tu amigo o tu enemigo.</p>
+            <p>Cuando un cliente no paga el total de su deuda, el <strong>"gremlin" del interés</strong> entra en acción y hace crecer el saldo pendiente. Por eso, entender la <strong>Tasa de Interés</strong>, la <strong>Fecha de Corte</strong> (la foto de tus gastos) y la <strong>Fecha Límite de Pago</strong> (el día para pagar la foto) es fundamental.</p>
+        </section>
+        <section class="slide slide-content">
+            <h3>El 'Gremlin' en Acción: <strong>¡A Calcular!</strong></h3>
+            <p>Veamos cómo funciona el interés con una deuda de <strong>$1,000,000</strong> y una tasa de interés mensual del <strong>3%</strong>.</p>
+            <div class="flex-container">
+                <div class="flex-item calculation-item">
+                    <h3>Escenario 1: El Totalero</h3>
+                    <p>Deuda del mes: $1,000,000<br>Pago realizado: $1,000,000</p>
+                    <p class="calculation-result">Intereses generados: $0<br>¡Le ganaste al gremlin!</p>
+                </div>
+                <div class="flex-item calculation-item">
+                    <h3>Escenario 2: Pago Parcial</h3>
+                    <p>Deuda del mes: $1,000,000<br>Pago realizado: $500,000<br>Saldo pendiente: $500,000</p>
+                    <p class="calculation-result">Intereses: $500,000 x 3% = $15,000<br>Este valor se suma a tu deuda.</p>
+                </div>
+                <div class="flex-item calculation-item">
+                    <h3>Escenario 3: Pago Mínimo</h3>
+                    <p>Deuda del mes: $1,000,000<br>Pago realizado: $100,000<br>Saldo pendiente: $900,000</p>
+                    <p class="calculation-result">Intereses: $900,000 x 3% = $27,000<br>El pago mínimo es el que genera más interés.</p>
+                </div>
+            </div>
+            <p class="disclaimer">*Este es un cálculo simplificado para fines educativos. El cálculo real puede variar.</p>
+        </section>
+        <section class="slide slide-content">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <h3>Score Crediticio: Tu Reputación Financiera</h3>
+            <p>Es como tu <strong>"nivel de confianza"</strong> en el mundo financiero. No es un juicio, es un historial.</p>
+            <p>Pagar a tiempo y manejar bien tus deudas <strong>sube tu nivel</strong>. Esto te abre las puertas a mejores productos en el futuro. Es la razón por la cual algunas solicitudes son aprobadas y otras no. <strong>¡Ayudas al cliente a construir su historial!</strong></p>
+        </section>
+        <section class="slide slide-module">
+             <h2>Módulo 3</h2>
+             <h1>La Misión: Entendiendo al Cliente</h1>
+             <p class="subtitle">Es hora de conectar los puntos y aplicar lo aprendido.</p>
+        </section>
+        <section class="slide slide-activity">
+            <h2>Actividad: <strong>Elige tu Aventura Financiera</strong></h2>
+            <p>En grupos, analicen estos escenarios. ¿Cuál es la situación financiera de fondo del cliente?</p>
+            <div class="flex-container">
+                <div class="scenario-box">
+                    <h3>ESCENARIO A</h3>
+                    <p>Un cliente llama frustrado porque su compra fue rechazada. Revisa y ve que está muy cerca de su cupo máximo.</p>
+                </div>
+                <div class="scenario-box">
+                    <h3>ESCENARIO B</h3>
+                    <p>Un cliente no entiende por qué su deuda creció si "no compró nada nuevo". El mes anterior, solo hizo el pago mínimo.</p>
+                </div>
+                <div class="scenario-box">
+                    <h3>ESCENARIO C</h3>
+                    <p>Un cliente nuevo pregunta: "¿Cómo hago para que me aumenten el cupo?".</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide slide-end">
+            <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.022 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path></svg>
+            <h2>¡Misión Cumplida!</h2>
+            <p>Hoy desbloqueaste tus superpoderes financieros:</p>
+            <p><strong>El GPS del dinero (Presupuesto) • La caja de herramientas (Débito/Crédito) • El control sobre el interés • El poder de tu reputación (Score).</strong></p>
+            <p>Ahora estás listo para las capacitaciones de los squads.</p>
+        </section>
+        <section class="slide slide-content">
+            <h2>¡El Reto Final!</h2>
+            <p>Demuestra lo que aprendiste en un divertido y rápido quiz.</p>
+            <a href="#" class="kahoot" target="_blank">¡Jugar Kahoot!</a>
+            <p style="margin-top: 1rem;">(El facilitador compartirá el PIN del juego)</p>
+        </section>
+        <section class="slide slide-end">
+             <svg class="fin-man" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.64 6.36c.39.39.39 1.02 0 1.41L12 13.41l-3.64-3.64c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0L12 11.59l2.22-2.22c.39-.39 1.02-.39 1.42 0z" fill="#FFFFFF"/><path d="M15.64 8.36c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41L12 14.83l-5.05-5.05c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0L12 12.01l3.64-3.65z" fill="#FFFFFF" fill-opacity="0.6"/></svg>
+            <h2>Bienvenido a la revolución morada.</h2>
+            <p>Tu misión no es solo resolver problemas, es empoderar a nuestros clientes.<br><strong>Tú tienes el control para lograrlo.</strong></p>
+            <p style="margin-top: 2rem;">¿Preguntas?</p>
+        </section>
+    </div>
+
+    <button id="prevBtn" class="nav-arrow">&#8249;</button>
+    <button id="nextBtn" class="nav-arrow">&#8250;</button>
+
+    <script>
+        // El script se ejecuta cuando el contenido del iframe está listo.
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            let currentSlide = 0;
+
+            // Función para mostrar la diapositiva correcta
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.remove('active');
+                    if (i === index) {
+                        slide.classList.add('active');
+                    }
+                });
+            }
+
+            // Función para ir a la siguiente diapositiva
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            // Función para ir a la diapositiva anterior
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            // Asignar los eventos de CLIC a los botones. Esto sí funciona.
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+            
+            // CÓDIGO ELIMINADO: La navegación por teclado se quita porque no
+            // funciona de forma fiable dentro del iframe de Google Sites.
+            /*
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight' || e.key === ' ') {
+                    e.preventDefault();
+                    nextSlide();
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    prevSlide();
+                }
+            });
+            */
+
+            // Mostrar la primera diapositiva al cargar
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
