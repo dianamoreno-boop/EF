@@ -238,8 +238,7 @@
     <button id="nextBtn" class="nav-arrow">&#8250;</button>
 
     <script>
-        // El script se ejecuta cuando el contenido del iframe está listo.
-        document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('DOMContentLoaded', function() {
             const slides = document.querySelectorAll('.slide');
             const nextBtn = document.getElementById('nextBtn');
             const prevBtn = document.getElementById('prevBtn');
@@ -267,27 +266,24 @@
                 showSlide(currentSlide);
             }
 
-            // Asignar los eventos de CLIC a los botones. Esto sí funciona.
+            // Asignar los eventos de CLIC a los botones
             nextBtn.addEventListener('click', nextSlide);
             prevBtn.addEventListener('click', prevSlide);
             
-            // CÓDIGO ELIMINADO: La navegación por teclado se quita porque no
-            // funciona de forma fiable dentro del iframe de Google Sites.
-            /*
+            // --- CÓDIGO RESTAURADO PARA LAS FLECHAS ---
+            // Ahora que la página está en GitHub, este código SÍ funcionará.
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'ArrowRight' || e.key === ' ') {
-                    e.preventDefault();
+                if (e.key === 'ArrowRight' || e.key === ' ') { // Avanza con Flecha Derecha o Espacio
+                    e.preventDefault(); // Evita que la página se mueva
                     nextSlide();
-                } else if (e.key === 'ArrowLeft') {
+                } else if (e.key === 'ArrowLeft') { // Retrocede con Flecha Izquierda
                     e.preventDefault();
                     prevSlide();
                 }
             });
-            */
 
             // Mostrar la primera diapositiva al cargar
             showSlide(currentSlide);
         });
-    </script>
 </body>
 </html>
